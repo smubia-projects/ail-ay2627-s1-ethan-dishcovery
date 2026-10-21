@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CouponListing, InactiveRule, Profile, VenueMatch } from "@ail/shared";
 import { ClosestPanel } from "@/components/ClosestPanel";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
+import { EngagementCta } from "@/components/EngagementCta";
 import { MapView } from "@/components/MapView";
 import { OriginPicker } from "@/components/OriginPicker";
 import { RedeemDialog } from "@/components/RedeemDialog";
@@ -11,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useDemoCoupons } from "@/hooks/useDemoCoupons";
 import { useMatch } from "@/hooks/useMatch";
 import { useUsedCoupons } from "@/hooks/useUsedCoupons";
+import { recordSuccessfulMatch } from "@/services/engagement";
 import { APP_NAME, COUPON_COPY, NUTRIENT_LABELS } from "@/utils/copy";
 import { goTo } from "@/utils/hashRoute";
 import { PRESET_ORIGINS, type Origin } from "@/utils/origins";
@@ -37,6 +39,14 @@ export function ResultsPage({ profile, onEdit }: { profile: Profile; onEdit: () 
   const [origin, setOrigin] = useState<Origin>(PRESET_ORIGINS[0]!);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const state = useMatch(profile, origin);
+  const [ctaCount, setCtaCount] = useState<number | null>(null);
+
+  // Each successful search counts towards the engagement CTA, which opens once after a few.
+  useEffect(() => {
+    if (state.status !== "ready") return;
+    const count = recordSuccessfulMatch();
+    if (count !== null) setCtaCount(count);
+  }, [state]);
   const tally = state.status === "ready" ? counts(state.data.venues) : { exact: 0, checked: 0, unknown: 0 };
 
   const demo = useDemoCoupons();
@@ -123,6 +133,7 @@ export function ResultsPage({ profile, onEdit }: { profile: Profile; onEdit: () 
         onClose={() => setCouponVenueId(null)}
       />
       <RedeemDialog listing={redeeming} onClose={() => setRedeeming(null)} onMarkUsed={markUsed} />
+      <EngagementCta count={ctaCount} onDismiss={() => setCtaCount(null)} />
     </div>
   );
 }
