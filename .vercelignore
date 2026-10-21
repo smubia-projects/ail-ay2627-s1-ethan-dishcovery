@@ -3,8 +3,8 @@ node_modules
 dist
 .env
 .env.*
-data/raw
-data/archive
-data/spike
-data/ingest
-FOR_OPENCODE_REF
+data
+docs
+Dockerfile
+.dockerignore
+.github
