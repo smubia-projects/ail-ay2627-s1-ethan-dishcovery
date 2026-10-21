@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 const EnvSchema = z.object({
-  MONGODB_URI: z.string().min(1),
   PORT: z.coerce.number().int().positive().default(4000),
   CORS_ORIGIN: z.string().min(1),
   /** "true" turns on the demonstration coupon screens. Off unless asked for. */

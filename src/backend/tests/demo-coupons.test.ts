@@ -99,7 +99,7 @@ describe("demo coupon data", () => {
 });
 
 describe("config", () => {
-  const base = { MONGODB_URI: "mongodb://x", CORS_ORIGIN: "http://localhost:5173" };
+  const base = { CORS_ORIGIN: "http://localhost:5173" };
   it("keeps demo coupons off unless set to true", () => {
     expect(loadConfig(base).DEMO_COUPONS).toBe("false");
     expect(loadConfig({ ...base, DEMO_COUPONS: "true" }).DEMO_COUPONS).toBe("true");
