@@ -11,12 +11,13 @@ export interface AppOptions {
   demoCoupons?: Coupon[];
 }
 
-/** Pass null for corsOrigin when the page and the API are served from the same origin (no CORS needed). */
-export function createApp(repo: CatalogRepository, corsOrigin: string | null, options: AppOptions = {}) {
+/** API only: the site is deployed separately (Vercel), so only the listed origins may call it. */
+export function createApp(repo: CatalogRepository, corsOrigins: string[], options: AppOptions = {}) {
   const app = express();
-  if (corsOrigin !== null) app.use(cors({ origin: corsOrigin }));
+  app.disable("x-powered-by");
+  app.use(cors({ origin: corsOrigins }));
   app.use(express.json({ limit: "20kb" }));
-  app.get("/api/health", (_req, res) => res.json({ ok: true }));
+  app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
   app.use("/api", matchRoutes(repo));
   if (options.demoCoupons !== undefined) app.use("/api", demoCouponRoutes(repo, options.demoCoupons));
   app.use(errorHandler);

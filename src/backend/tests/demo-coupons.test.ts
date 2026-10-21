@@ -35,12 +35,12 @@ describe("listCoupons", () => {
 
 describe("GET /api/demo/coupons", () => {
   it("is not served unless demo coupons are switched on", async () => {
-    const res = await request(createApp(repo, "http://localhost:5173")).get("/api/demo/coupons");
+    const res = await request(createApp(repo, ["http://localhost:5173"])).get("/api/demo/coupons");
     expect(res.status).toBe(404);
   });
 
   it("serves demo coupons marked demo: true", async () => {
-    const app = createApp(repo, "http://localhost:5173", { demoCoupons: [coupon("c1", "v1")] });
+    const app = createApp(repo, ["http://localhost:5173"], { demoCoupons: [coupon("c1", "v1")] });
     const res = await request(app).get("/api/demo/coupons");
     expect(res.status).toBe(200);
     expect(res.body.demo).toBe(true);
@@ -48,13 +48,13 @@ describe("GET /api/demo/coupons", () => {
   });
 
   it("returns an error, not a broken offer, when a coupon points at a missing venue", async () => {
-    const app = createApp(repo, "http://localhost:5173", { demoCoupons: [coupon("c1", "gone")] });
+    const app = createApp(repo, ["http://localhost:5173"], { demoCoupons: [coupon("c1", "gone")] });
     const res = await request(app).get("/api/demo/coupons");
     expect(res.status).toBe(500);
   });
 
   it("keeps the real search working when a demo coupon is broken", async () => {
-    const app = createApp(repo, null, { demoCoupons: [coupon("c1", "gone")] });
+    const app = createApp(repo, ["http://localhost:5173"], { demoCoupons: [coupon("c1", "gone")] });
     const res = await request(app)
       .post("/api/match")
       .send({ profile: { conditions: [], sodiumPreset: null, limits: {}, halalOnly: false, vegetarianOnly: false }, origin: null });
@@ -63,7 +63,7 @@ describe("GET /api/demo/coupons", () => {
   });
 
   it("never puts demo coupons into match results", async () => {
-    const app = createApp(repo, "http://localhost:5173", { demoCoupons: [coupon("c1", "v1")] });
+    const app = createApp(repo, ["http://localhost:5173"], { demoCoupons: [coupon("c1", "v1")] });
     const res = await request(app)
       .post("/api/match")
       .send({ profile: { conditions: [], sodiumPreset: null, limits: {}, halalOnly: false, vegetarianOnly: false }, origin: null });
@@ -99,7 +99,7 @@ describe("demo coupon data", () => {
 });
 
 describe("config", () => {
-  const base = { CORS_ORIGIN: "http://localhost:5173" };
+  const base = { CORS_ORIGINS: "http://localhost:5173" };
   it("keeps demo coupons off unless set to true", () => {
     expect(loadConfig(base).DEMO_COUPONS).toBe("false");
     expect(loadConfig({ ...base, DEMO_COUPONS: "true" }).DEMO_COUPONS).toBe("true");
