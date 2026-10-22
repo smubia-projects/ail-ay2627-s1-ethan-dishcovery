@@ -11,15 +11,15 @@ export const CTA_PROJECT = {
   description:
     "You've run {count} dish searches against your own nutrient limits. Dishcovery was built by Ethan Poh in AI Lodge. Curious how it works, or want to build something like it?",
   programme: "AI Lodge",
-  programmeLink: "https://www.smubia.com/ai-lodge",
+  programmeLink: "https://www.smubia.com/ailodge",
   githubLink: "https://github.com/smubia-projects/ail-ay2627-s1-ethan-dishcovery",
-  showcaseLink: "https://www.smubia.com/showcase",
+  showcaseLink: "https://www.smubia.com/Projects",
 } as const;
 
 const LINKS = [
   { label: `Join ${CTA_PROJECT.programme}`, href: CTA_PROJECT.programmeLink, primary: true },
-  { label: "Self-host from GitHub", href: CTA_PROJECT.githubLink, primary: false },
   { label: "Explore other projects", href: CTA_PROJECT.showcaseLink, primary: false },
+  { label: "View on GitHub", href: CTA_PROJECT.githubLink, primary: false },
 ];
 
 interface Props {

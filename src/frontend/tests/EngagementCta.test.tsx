@@ -33,8 +33,8 @@ describe("EngagementCta", () => {
     const dialog = await screen.findByRole("dialog");
     expect(dialog).toHaveAttribute("aria-modal", "true");
     expect(dialog).toHaveTextContent("You've run 3 dish searches");
-    expect(screen.getByRole("link", { name: /Join AI Lodge/ })).toHaveAttribute("href", "https://www.smubia.com/ai-lodge");
-    expect(screen.getByRole("link", { name: /Self-host from GitHub/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Join AI Lodge/ })).toHaveAttribute("href", "https://www.smubia.com/ailodge");
+    expect(screen.getByRole("link", { name: /View on GitHub/ })).toHaveAttribute(
       "href",
       "https://github.com/smubia-projects/ail-ay2627-s1-ethan-dishcovery",
     );
