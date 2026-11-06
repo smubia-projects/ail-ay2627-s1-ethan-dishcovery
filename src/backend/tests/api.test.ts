@@ -11,7 +11,15 @@ const catalog: Catalog = {
   coupons: [coupon("c1", "v1")],
 };
 const repo: CatalogRepository = { loadCatalog: async () => catalog };
-const app = createApp(repo, "http://localhost:5173");
+const app = createApp(repo, ["http://localhost:5173"]);
+
+describe("GET /api/health", () => {
+  it("answers {status: ok}", async () => {
+    const res = await request(app).get("/api/health");
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ status: "ok" });
+  });
+});
 
 describe("POST /api/match", () => {
   it("returns ranked venues for a valid profile", async () => {
@@ -33,5 +41,11 @@ describe("POST /api/match", () => {
 describe("loadConfig", () => {
   it("fails when required env vars are missing", () => {
     expect(() => loadConfig({})).toThrow();
+  });
+
+  it("splits CORS_ORIGINS on commas and defaults PORT to 8080", () => {
+    const config = loadConfig({ CORS_ORIGINS: "https://a.vercel.app, http://localhost:5173" });
+    expect(config.CORS_ORIGINS).toEqual(["https://a.vercel.app", "http://localhost:5173"]);
+    expect(config.PORT).toBe(8080);
   });
 });

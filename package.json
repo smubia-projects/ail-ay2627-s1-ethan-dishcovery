@@ -12,8 +12,10 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "dev:api": "npm run dev -w src/backend",
     "dev:web": "npm run dev -w src/frontend",
-    "build:vercel": "node scripts/build-vercel.mjs",
-    "smoke:vercel": "node scripts/smoke-vercel.mjs"
+    "build:web": "npm run build -w src/frontend",
+    "build:api": "node scripts/build-api.mjs",
+    "start:api": "node dist/server.mjs",
+    "smoke:api": "node scripts/smoke-api.mjs"
   },
   "engines": {
     "node": "22.x"
