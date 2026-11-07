@@ -7,9 +7,9 @@ import { Dialog, DialogOverlay, DialogPortal } from "@/components/ui/dialog";
 export const CTA_PROJECT = {
   name: "Dishcovery",
   emoji: "🍽️",
-  headline: "Hungry for more?",
+  headline: "Your next meal just got easier!",
   description:
-    "You've run {count} dish searches against your own nutrient limits. Dishcovery was built by Ethan Poh in AI Lodge. Curious how it works, or want to build something like it?",
+    "Want to build AI that helps people with health conditions eat out without the guesswork? AI Lodge students go from first sketch to a deployed app with teammates debugging right alongside.",
   programme: "AI Lodge",
   programmeLink: "https://www.smubia.com/ailodge",
   githubLink: "https://github.com/smubia-projects/ail-ay2627-s1-ethan-dishcovery",
