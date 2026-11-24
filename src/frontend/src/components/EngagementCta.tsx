@@ -13,7 +13,7 @@ export const CTA_PROJECT = {
   programme: "AI Lodge",
   programmeLink: "https://www.smubia.com/ailodge",
   githubLink: "https://github.com/smubia-projects/ail-ay2627-s1-ethan-dishcovery",
-  showcaseLink: "https://www.smubia.com/Projects",
+  showcaseLink: "https://www.smubia.com/projects",
 } as const;
 
 const LINKS = [
